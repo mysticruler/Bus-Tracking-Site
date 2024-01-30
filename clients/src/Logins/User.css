@@ -1,0 +1,8 @@
+.user-login-container {
+    height: 932px;
+    background-image: url("bususer.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+  }

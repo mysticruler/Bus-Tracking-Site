@@ -1,0 +1,8 @@
+.admin-login-container {
+    height: 932px;
+    background-image: url("busadmin.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
