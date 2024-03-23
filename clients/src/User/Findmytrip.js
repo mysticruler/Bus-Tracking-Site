@@ -1,174 +1,152 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../Navbar";
-import { Link, useNavigate } from "react-router-dom";
-import { IoIosAddCircle } from "react-icons/io";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavbarOne from "../NavbarOne";
-
-
-
+import "./findmytrip.css"; // Import the CSS file
+import LocationModal from "./LocationModal"; // Import the LocationModal component
 
 function Findmytrip() {
+  const [pickupCity, setPickupCity] = useState("");
+  const [dropCity, setDropCity] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [selectedTrip, setSelectedTrip] = useState(null); // State to store selected trip details
+  const redirect = useNavigate();
 
-  const [info, setInfo] = useState("")
-  const [name, setName] = useState('')
-  const [operatorname, setOperatorname] = useState('')
-  const [cases, setCase] = useState('')
+  const handleSearch = () => {
+    const pickupCityLower = pickupCity.toLowerCase();
+    const dropCityLower = dropCity.toLowerCase();
 
-  const navigate = useNavigate();
+    console.log("Searching for trips with pickup city:", pickupCityLower);
+    console.log("Searching for trips with drop city:", dropCityLower);
 
-
-
-  const findTrip = () => {
-
-    fetch(`https://disease.sh/v3/covid-19/countries/${info}`)
-      .then((res) => res.json())
+    fetch(`http://localhost:2222/tripsearch?pickupCity=${pickupCityLower}&dropCity=${dropCityLower}`)
+      .then((response) => response.json())
       .then((data) => {
-
-
-
-        setName(data.country)
-
-        console.log(data.country);
+        console.log("Search results:", data); // Logging fetched data
+        setSearchResults(data);
       })
-  }
+      .catch((error) => console.error("Error searching trips:", error));
+  };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    redirect("/userlogin");
+    window.location.reload();
+  };
 
-  // const handleLogout = () => {
-  //   fetch("http://localhost:2222/userlogout", {
-  //     method: "POST",
-  //     credentials: 'include', 
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log('Logout response:', data);
-  //       if (data.status === 'success') {
-  //         console.log('Logout successful');
-         
-  //       } else {
-  //         console.log('Logout failed:', data.message);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error during logout:", error);
-  //     });
-  // };
-  
+  const showLocation = (index) => {
+    setSelectedTrip(searchResults[index]); // Set the selected trip details
+    setShowModal(true); // Set showModal to true when button is clicked
+  };
 
-  // const findTrip = () => {
-
-  //   fetch(`http://localhost:2222/tripsearch/${info}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-
-
-
-  //       setName(data.busid)
-
-  //       console.log(data.country);
-  //     })
-  // }
-
-
-
-
+  const closeModal = () => {
+    setShowModal(false); // Set showModal to false to close modal
+  };
 
   return (
-
     <>
       <NavbarOne />
+      <div className="app">
+        <div className="transparent-table-container">
+          <button
+            id="logout"
+            type="button"
+            className="btn btn-outline-primary logout-btn"
+            onClick={handleLogout}
+          >
+            LOGOUT
+          </button>
 
-      <div id="Trips" className="transparent-table-container">
-       <Link to="/"> <button type="button" style={{ marginTop: "-138px", marginLeft: "1500px", position: "absolute", zIndex: 5 }} className="btn btn-outline-primary">LOGOUT</button></Link>
+          <h3 className="find-trip-header">FIND YOUR TRIP HERE</h3>
 
+          <table className="table table-dark">
+            <thead>
+              <tr>
+                <th className="text-center">#</th>
+                <th className="text-center">Bus ID</th>
+                <th className="text-center">Bus Image</th>
+                <th className="text-center">Operator Name</th>
+                <th className="text-center">Contact Number</th>
+                <th className="text-center">Source</th>
+                <th className="text-center">Destination</th>
+                <th className="text-center">Departure Time</th>
+                <th className="text-center">Arrival Time</th>
+                <th className="text-center">Bus info</th>
+              </tr>
+            </thead>
+            <tbody>
+              {searchResults.map((trip, index) => (
+                <tr key={index}>
+                  <td className="text-center">{index + 1}</td>
+                  <td className="text-center">{trip.busid}</td>
+                  <td className="text-center">
+                    <img
+                      src={trip.image}
+                      alt="BUS COMES HERE"
+                      className="bus-image"
+                    />
+                  </td>
+                  <td className="text-center">{trip.operatorname}</td>
+                  <td className="text-center">{trip.contactnumber}</td>
+                  <td className="text-center">{trip.stops[0]}</td>
+                  <td className="text-center">{trip.destination}</td>
+                  <td className="text-center">{trip.departuretime}</td>
+                  <td className="text-center">{trip.arrivaltime}</td>
+                  <td className="text-center">
+                    {" "}
+                    <button
+                      style={{ marginTop: "-7.5px" }}
+                      type="button"
+                      className="btn btn-dark"
+                      onClick={() => showLocation(index)}
+                    >
+                      Show Info
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-        <table className="table table-dark">
-          <thead>
-            <th>
-              <h3 style={{ fontFamily: 'Times New Roman, serif' }}>
-                FIND YOUR TRIP HERE
-                <Link to='/tripsadding' style={{ marginLeft: "1200px" }}><IoIosAddCircle /></Link>
-              </h3>
-            </th>
-          </thead>
-        </table>
-
-        <table className="table table-dark">
-          <thead>
-            <tr>
-              <th className="text-center">#</th>
-              <th className="text-center">Bus ID</th>
-              <th className="text-center">operatorname</th>
-              <th className="text-center">contactnumber</th>
-              <th className="text-center">Source</th>
-              <th className="text-center">Destination</th>
-              <th className="text-center">Next Stop</th>
-              <th className="text-center">Departure Time</th>
-              <th className="text-center">Arrival Time</th>
-              <th className="text-center">Actions</th>
-
-
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="text-center"></td>
-              <td className="text-center"></td>
-              <td className="text-center"></td>
-              <td className="text-center">{name}</td>
-              <td className="text-center">{operatorname}</td>
-              <td className="text-center"></td>
-              <td className="text-center"></td>
-              <td className="text-center"></td>
-              <td className="text-center"></td>
-
-              <td className="text-center">{<button type="button" class="btn btn-dark">Delete</button>}
-                <Link to='/flightsupdate' >
-                  <button type="button" class="btn btn-dark">Update</button></Link></td>
-
-
-            </tr>
-
-          </tbody>
-        </table>
-
-        <table>
-          <thead>
-            <th>
-              <h3 style={{ fontFamily: 'Times New Roman, serif' }}>
-
-
-
-                <div className="input-group mb-3">
-                  <label style={{ marginRight: "10px" }}>Search Your Trip Here</label>
-                  <input type="text" value={info} onChange={(e) => { setInfo(e.target.value) }} className="form-control rounded" />
-                  <button type="submit" className="btn btn-primary rounded" onClick={findTrip}>Search</button>
-                </div>
-
-
-              </h3>
-            </th>
-          </thead>
-        </table>
+          <div className="search-section">
+            <label className="search-label">Search Your Trip Here</label>
+            <div className="search-inputs">
+              <input
+                type="text"
+                className="form-control search-input"
+                placeholder="Enter Pickup City"
+                value={pickupCity}
+                onChange={(e) => {
+                  console.log("Pickup city:", e.target.value); // Logging input value
+                  setPickupCity(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                className="form-control search-input"
+                placeholder="Enter Drop City"
+                value={dropCity}
+                onChange={(e) => {
+                  console.log("Drop city:", e.target.value); // Logging input value
+                  setDropCity(e.target.value);
+                }}
+              />
+              <button
+                type="button"
+                className="btn btn-danger search-btn"
+                onClick={handleSearch}
+              >
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
-
+      {/* Modal for displaying location */}
+      {showModal && <LocationModal trip={selectedTrip} closeModal={closeModal} />}
     </>
-  )
+  );
 }
 
-
-
-export default Findmytrip
-
-
-
-
-
-
-
-
-
-
-
-
+export default Findmytrip;

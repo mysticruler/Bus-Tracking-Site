@@ -1,0 +1,141 @@
+#Trips {
+
+    position: absolute;
+    margin-left: 150px;
+    margin-top: -800px;
+    z-index: 10;
+
+}
+
+
+
+.transparent-table-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-left: 40px;
+}
+
+table.table-dark {
+    background-color: transparent !important;
+    width:95%;
+
+}
+
+th,
+td {
+    text-align: center;
+    color: #fff;
+}
+
+
+.tripsadding {
+
+    background-color: rgba(0, 0, 0, 0.8);
+  
+}
+
+.tripsupdating {
+
+ 
+    background-color: rgba(0, 0, 0, 0.8);
+
+    
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    color: #fff;
+}
+
+.form-control {
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+
+
+
+.stop-input {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+
+}
+
+.stop-input input {
+    width: 100px;
+
+    margin-right: 5px;
+
+}
+
+.stop-input button {
+    margin-left: 5px;
+
+}
+
+
+.form-select {
+    position: relative;
+    display: inline-block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 77px;
+    border: none;
+    border-radius: 7px;
+    color: rgb(255, 255, 255);
+    margin-top: 3px;
+    background-color: #2a313b;
+    background-repeat: no-repeat;
+    padding: 8px 0;
+    text-align: center;
+    line-height: 1;
+}
+
+.form-select option {
+    color: rgb(42, 107, 248);
+}
+
+
+
+.rounded-image {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.add {
+    color: rgb(255, 255, 255);
+    font-size: 35px;
+    cursor: pointer;
+    margin-top: -5px;
+}
+
+.close {
+    color: rgb(236, 146, 146);
+    font-size: 35px;
+    cursor: pointer;
+
+}
+
+/* .app {
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    min-height: 100vh; 
+    background-image: url('bus.jpg');
+    background-size: cover; 
+  } */

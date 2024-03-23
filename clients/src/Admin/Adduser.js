@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../Navbar"
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import {useNavigate } from "react-router-dom";
 
 import './All.css'
 
@@ -12,7 +11,7 @@ function Adduser() {
     const [password, setPassword] = useState('')
 
     const addUser = (e) => {
-        
+
         e.preventDefault()
         redirect('/usersettings')
         let user = {
@@ -33,7 +32,7 @@ function Adduser() {
             console.log(out);
             redirect('/userlogin')
         })
-        
+
 
     }
 
@@ -50,20 +49,23 @@ function Adduser() {
 
         <>
 
-            <Navbar />
-            <div className="tripsadding">
-                <form method="post" style={{ width: "1000px" }} onSubmit={addUser}>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">USER MAIL</label>
-                        <input className="form-control" name="usermail" onChange={(e) => setUsermail(e.target.value)} />
+            <div className="app">
+                <div style={{ width: "61%", marginLeft: "320px", marginTop:"300px" }}>
+                    <div className="tripsadding">
+                        <form method="post" style={{ width: "1000px" }} onSubmit={addUser}>
+                            <div className="form-group">
+                                <label htmlFor="exampleInputEmail1">USER MAIL</label>
+                                <input className="form-control" name="usermail" onChange={(e) => setUsermail(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="exampleInputEmail1">PASSWORD</label>
+                                <input className="form-control" name="password" onChange={(e) => setPassword(e.target.value)} />
+                            </div>
+
+                            <button type="submit" className="btn btn-primary">Submit</button>
+                        </form>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">PASSWORD</label>
-                        <input className="form-control" name="password" onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-                  
-                    <button type="submit" className="btn btn-primary">Submit</button>
-                </form>
+                </div>
             </div>
 
 

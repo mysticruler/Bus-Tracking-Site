@@ -1,0 +1,48 @@
+.transparent-table-container {
+    background-color: rgba(0, 0, 0, 0.8); /* Adjust transparency here */
+    padding: 20px;
+    margin-bottom: 20px; /* Add margin between tables */
+    border-radius: 15px; /* Optional: Add border radius */
+    margin-top: 100px;
+  }
+  
+
+  .table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .table-container .table {
+    width: 100%; /* Optional: Adjust table width */
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    color: #fff;
+  }
+  
+  .form-control {
+    width: 100%;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+  }
+  
+  /* .app {
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    min-height: 100vh; 
+    background-image: url('bus.jpg');
+    background-size: cover; 
+    z-index: -10;
+  } */
+  
+ 

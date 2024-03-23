@@ -1,0 +1,127 @@
+/* styles.css */
+.search-slt {
+  margin-top: 10px;
+  /* Adjusted for better spacing */
+  display: block;
+  width: calc(100% - 20px);
+  /* Adjusted for better width */
+  font-size: 1rem;
+  /* Increased font size for better readability */
+  line-height: 1.5;
+  color: #55595c;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  height: 50px;
+  /* Adjusted height for better alignment */
+  border-radius: 5px;
+  padding: 0 10px;
+  /* Added padding for better appearance */
+}
+
+#logout {
+  position: absolute;
+  margin-left: 1506px;
+  margin-top: -105px;
+  z-index: 5;
+
+
+}
+
+.wrn-btn {
+  width: calc(100% - 20px);
+  /* Adjusted width for better alignment */
+  font-size: 1rem;
+  /* Increased font size for better readability */
+  font-weight: 400;
+  text-transform: capitalize;
+  height: 50px;
+  /* Adjusted height for better alignment */
+  border-radius: 5px;
+  margin-top: 10px;
+  /* Adjusted for better spacing */
+}
+
+/* .app {
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  min-height: 100vh;
+  background-image: url('bus.jpg');
+  background-size: cover;
+} */
+
+.transparent-table-container {
+  width: 95%;
+  margin: 20px auto;
+  /* Centered the container */
+  margin-top: 100px;
+}
+
+.logout-btn {
+  margin-top: -50px;
+  /* Adjusted for better alignment */
+  float: right;
+  /* Changed to float for better positioning */
+}
+
+.find-trip-header {
+  font-family: 'Times New Roman', serif;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffffff;
+  /* Added margin for better spacing */
+}
+
+.bus-image {
+  width: 100px;
+  height: 100px;
+  display: block;
+  margin: 0 auto;
+  /* Centered the image */
+}
+
+.search-section {
+  margin-top: 20px;
+}
+
+.search-label {
+  margin-right: 10px;
+  color: #ccc;
+}
+
+.search-inputs {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  /* Expanded input field to take remaining space */
+  margin-right: 10px;
+}
+
+.search-btn {
+  width: 100px;
+  height: 50px;
+  /* Matched height with other buttons */
+  border-radius: 5px;
+  background-color: #dc3545;
+  /* Changed button color */
+  color: #fff;
+  /* Changed text color */
+  border: none;
+  /* Removed border */
+  font-size: 1rem;
+  /* Increased font size for better readability */
+}
+
+.search-btn:hover {
+  background-color: #c82333;
+  /* Darker color on hover */
+}
+
+/* Added a transition for smoother hover effect */
+.search-btn {
+  transition: background-color 0.3s ease;
+}

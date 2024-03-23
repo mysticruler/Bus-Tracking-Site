@@ -1,0 +1,184 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: peru;
+  transition: left 300ms ease-out;
+  z-index: 5;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+
+.sidebar ul {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar li {
+  list-style: none;
+}
+
+.sidebar li a {
+  font-size: 18px;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  color: #fff;
+}
+
+
+.hamburger {
+  border: none;
+  outline: 0;
+  width: 50px;
+  position: absolute;
+  right: -50px;
+  background-color: peru;
+  margin-top: 63px;
+  border-radius: 0 0 10px 0;
+}
+
+.hamburger:after,
+.hamburger:before,
+.hamburger div {
+  background-color: #fff;
+  height: 5px;
+  margin: 7px 0;
+  border-radius: 3px;
+  content: "";
+  display: block;
+  transition: all 300ms ease-in-out;
+}
+
+.sidebar.active .hamburger:before {
+  transform: translateY(12px) rotate(135deg);
+}
+
+.sidebar.active .hamburger::after {
+  transform: translateY(-12px) rotate(-135deg);
+}
+
+.sidebar.active .hamburger div {
+  transform: scale(0);
+}
+
+
+
+
+
+.diss{
+  margin-top: -900px;
+  margin-left: -230px;
+}
+.inforide {
+  border: 2px solid black; 
+  border-radius: 30px;
+  
+}
+.rideone img {
+  padding-top: 8px;
+  width: 70%;
+}
+
+.ridetwo img {
+  padding-top: 5px;
+  width: 70%;
+}
+
+.ridethree img {
+  padding-top: 0px;
+  width: 70%;
+}
+
+.ridefour img {
+  padding-top: 3px;
+  width: 70%;
+}
+
+.rideone {
+  background-color: #7dc8f4;
+  padding-top: 25px;
+  border-radius: 30px;
+  text-align: center;
+  height: 125px;
+  margin-left: 15px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  
+}
+
+.ridetwo {
+  background-color: #6CC785;
+  padding-top: 30px;
+  border-radius: 30px;
+  text-align: center;
+  height: 125px;
+  margin-left: 15px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ridethree {
+  background-color: #fffb8a;
+  padding-top: 35px;
+  border-radius: 30px;
+  text-align: center;
+  height: 125px;
+  margin-left: 15px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ridefour {
+  background-color: #ff8686;
+  padding-top: 35px;
+  border-radius: 30px;
+  text-align: center;
+  height: 125px;
+  margin-left: 15px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.fontsty {
+  margin-right: -15px;
+}
+
+.fontsty h2 {
+  color: #000000;
+  font-size: 35px;
+  margin-top: 15px;
+  text-align: right;
+  margin-right: 30px;
+}
+
+.fontsty h4 {
+  color: #000000;
+  font-size: 25px;
+  margin-top: 20px;
+  text-align: right;
+  margin-right: 30px;
+}
+
+.content-wrapper {
+  min-height: calc(100vh - 56px);
+  padding-top: 4rem;
+  overflow-x: hidden;
+  background: transparent;
+}
+
+
+
+
+  .content-wrapper {
+    margin-left: 250px;
+    margin-right: 20px;
+  }
+
+
+

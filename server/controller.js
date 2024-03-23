@@ -17,50 +17,106 @@ app.use(fileUp())
 app.use(express.static(path.join(__dirname, 'public/images')));
 
 
-app.post('/tripsadding', (req, ress) => {
-    var Trips = {
+app.post('/tripsadding', (req, res) => {
 
+    let tripData = {
         busid: req.body.busid,
+        image: req.files.image.name,
         operatorname: req.body.operatorname,
         contactnumber: req.body.contactnumber,
         source: req.body.source,
         destination: req.body.destination,
-        nextstop: req.body.nextstop,
         departuretime: req.body.departuretime,
-        arrivaltime: req.body.arrivaltime
+        arrivaltime: req.body.arrivaltime,
+        stops: [],
+        status: 1,
+        oppid: req.body.oppid
 
-    }
+    };
 
-    database.then((data) => {
-        data.collection('Trips').insertOne(Trips).then((res) => {
-        })
-    })
-    ress.json('sucess')
 
-})
+    Object.keys(req.body).forEach(key => {
+        if (key.startsWith('stop')) {
+            tripData.stops.push(req.body[key]);
+        }
+    });
 
+
+    database.then((db) => {
+        db.collection('Trips').insertOne(tripData).then((result) => {
+
+            const fileUpload = req.files.image;
+            fileUpload.mv('public/images/' + tripData.image).then(() => {
+                res.json('success');
+            }).catch((err) => {
+                res.status(500).json({ error: err.message });
+            });
+        }).catch((err) => {
+            res.status(500).json({ error: err.message });
+        });
+    }).catch((err) => {
+        res.status(500).json({ error: err.message });
+    });
+});
+
+app.post('/tripstatus', (req, res) => {
+    const tripId = req.body.id;
+    const newStatus = req.body.status;
+    database.then((db) => {
+        db.collection('Trips').updateOne({ _id: new mongodb.ObjectId(tripId) },
+            { $set: { status: newStatus } }
+        ).then((result) => {
+            // console.log(result);
+            res.json(result)
+        }).catch((err) => {
+            res.status(500).json({ error: err.message });
+        });
+    }).catch((err) => {
+        res.status(500).json({ error: err.message });
+    });
+});
 
 
 app.get('/tripview', (req, res) => {
     database.then((data) => {
         data.collection('Trips').find({}).toArray().then((result) => {
             res.json(result)
-            console.log(result);
+            // console.log(result);
 
         })
     })
 })
+
 
 
 app.get('/tripsearch', (req, res) => {
-    database.then((search) => {
-        search.collection('Trips').find({}).toArray().then((out) => {
-            res.json(out)
-            console.log(out);
+    const { pickupCity, dropCity } = req.query;
 
-        })
-    })
-})
+    if (!pickupCity || !dropCity) {
+        return res.status(400).json({ error: "Please provide both pickupCity and dropCity in the query parameters." });
+    }
+
+    database.then((db) => {
+        db.collection('Trips').find({}).toArray().then((trips) => {
+            const results = trips.filter(trip => {
+                const stopsLower = trip.stops.map(stop => stop.toLowerCase());
+                const pickupCityLower = pickupCity.toLowerCase();
+                const dropCityLower = dropCity.toLowerCase();
+                const indexOfPickup = stopsLower.indexOf(pickupCityLower);
+                const indexOfDrop = stopsLower.indexOf(dropCityLower);
+                return indexOfPickup !== -1 && indexOfDrop !== -1 && indexOfPickup < indexOfDrop;
+            });
+            res.json(results);
+        }).catch((err) => {
+            console.error("Error fetching trips:", err);
+            res.status(500).json({ error: "An error occurred while fetching trips." });
+        });
+    }).catch((err) => {
+        console.error("Database connection error:", err);
+        res.status(500).json({ error: "An error occurred while connecting to the database." });
+    });
+});
+
 
 
 app.post('/tripdelete', (req, res) => {
@@ -72,54 +128,119 @@ app.post('/tripdelete', (req, res) => {
     })
 })
 
-
-
 app.post('/tripedit', (req, res) => {
-    let tripid = req.body.id
+    let tripid = req.body.id;
     database.then((dbdb) => {
         dbdb.collection('Trips').findOne({ _id: new mongodb.ObjectId(tripid) }).then((tripsss) => {
-            res.json(tripsss)
-        })
-    })
-})
+            res.json(tripsss);
+        });
+    });
+});
 
 
 app.post('/tripupdate', (req, res) => {
     let tripdata = {
-
         busid: req.body.busid,
         operatorname: req.body.operatorname,
+        image: req.files?.image.name,
         contactnumber: req.body.contactnumber,
         source: req.body.source,
         destination: req.body.destination,
-        nextstop: req.body.nextstop,
         departuretime: req.body.departuretime,
-        arrivaltime: req.body.arrivaltime
+        arrivaltime: req.body.arrivaltime,
+        stops: [],
+        userid: req.body.userid
+    };
 
+
+    Object.keys(req.body).forEach(key => {
+        if (key.startsWith('stop')) {
+            tripdata.stops.push(req.body[key]);
+        }
+    });
+
+    let tripvalue = req.body.id;
+    let newvalue = '';
+
+    if (req.files?.image) {
+        newvalue = {
+            busid: tripdata.busid,
+            operatorname: tripdata.operatorname,
+            contactnumber: tripdata.contactnumber,
+            source: tripdata.source,
+            destination: tripdata.destination,
+            departuretime: tripdata.departuretime,
+            arrivaltime: tripdata.arrivaltime,
+            image: tripdata.image,
+            stops: tripdata.stops
+        };
+        let fileUpdate = req.files.image;
+
+        fileUpdate.mv('public/images/' + tripdata.image)
+    } else {
+        newvalue = {
+            busid: tripdata.busid,
+            operatorname: tripdata.operatorname,
+            contactnumber: tripdata.contactnumber,
+            source: tripdata.source,
+            destination: tripdata.destination,
+            departuretime: tripdata.departuretime,
+            arrivaltime: tripdata.arrivaltime,
+            stops: tripdata.stops
+        };
     }
-    let tripvalue = req.body.id
-    database.then((db) => {
-        db.collection('Trips').updateOne({ _id: new mongodb.ObjectId(tripvalue) }
-            , { $set: tripdata }).then((res) => {
-                console.log(res);
 
-            })
+    database.then((db) => {
+        db.collection('Trips').updateOne({ _id: new mongodb.ObjectId(tripvalue) },
+            { $set: newvalue }).then((result) => {
+                // console.log(result);
+                res.json({ success: true });
+            });
+    });
+});
+
+
+app.get('/tripcount', (req, res) => {
+    database.then((total) => {
+        total.collection('Trips').distinct("_id").then((uniqueIds) => {
+            const totalCount = uniqueIds.length;
+            res.json({ totalCount });
+
+        });
+    });
+});
+
+app.get('/userscount', (req, res) => {
+    database.then((total) => {
+        total.collection('Users').distinct("_id").then((users) => {
+            const totalusersCount = users.length;
+            res.json({ totalusersCount });
+
+        });
+    });
+});
+
+app.get('/operatorscount', (req, res) => {
+    database.then((total) => {
+        total.collection('Operators').distinct("_id").then((opp) => {
+            const totaloperatorsCount = opp.length;
+            res.json({ totaloperatorsCount });
+
+
+        });
+    });
+});
+
+
+
+app.get('/tripactive', (req, res) => {
+    database.then((data) => {
+        data.collection('Trips').find({}).toArray().then((result) => {
+            res.json(result)
+
+        })
     })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -134,7 +255,8 @@ app.post('/userregister', (req, res) => {
         dbb.collection('Users').insertOne(newuser, function (err, result) {
             res.json('success');
         });
-    }).catch(err => { console.log(err) })
+    })
+    // .catch(err => { console.log(err) })
 });
 
 
@@ -158,7 +280,7 @@ app.post('/userlogin', (req, res) => {
                     if (ress.usertype == 1) {
                         res.json({ status: 'success', userType: 1 });
                     } else {
-                        res.json({ status: 'success', userType: 2 });
+                        res.json({ status: 'success', userType: 99 });
                     }
                 } else {
                     res.status(401).json({ status: 'error', message: 'Wrong password' });
@@ -179,7 +301,7 @@ app.get('/userview', (req, res) => {
     database.then((data) => {
         data.collection('Users').find({}).toArray().then((result) => {
             res.json(result)
-            console.log(result);
+            // console.log(result);
 
         })
     })
@@ -216,22 +338,13 @@ app.post('/userupdate', (req, res) => {
     database.then((db) => {
         db.collection('Users').updateOne({ _id: new mongodb.ObjectId(uservalue) }
             , { $set: userdata }).then((res) => {
-                console.log(res);
+                // console.log(res);
 
             })
     })
 })
 
 
-// app.post('/userlogout', (req, res) => {
-//     req.session.destroy(err => {
-//       if (err) {
-//         res.status(500).json({ status: 'error', message: 'Failed to logout' });
-//       } else {
-//         res.json({ status: 'success', message: 'Logout successful' });
-//       }
-//     });
-//   });
 
 
 
@@ -247,7 +360,8 @@ app.post('/adminregister', (req, res) => {
         dbb.collection('Admins').insertOne(newadmin, function (err, result) {
             res.json('success');
         });
-    }).catch(err => { console.log(err) })
+    })
+    // .catch(err => { console.log(err) })
 });
 
 
@@ -267,7 +381,7 @@ app.post('/adminlogin', (req, res) => {
                     if (ress.usertype == 2) {
                         res.json({ status: 'success', userType: 2 });
                     } else {
-                        res.json({ status: 'success', userType: 3 });
+                        res.json({ status: 'success', userType: 99 });
                     }
                 } else {
                     res.status(401).json({ status: 'error', message: 'Wrong password' });
@@ -299,7 +413,8 @@ app.post('/operatorregister', (req, res) => {
         dbb.collection('Operators').insertOne(newopp, function (err, result) {
             res.json('success');
         });
-    }).catch(err => { console.log(err) })
+    })
+    // .catch(err => { console.log(err) })
 });
 
 
@@ -318,9 +433,9 @@ app.post('/operatorlogin', (req, res) => {
                 if (opplogg.password == ress.password) {
                     req.session = ress;
                     if (ress.usertype == 3) {
-                        res.json({ status: 'success', userType: 3 });
+                        res.json({ status: 'success', userType: 3, _id: ress._id }); // Include uid in the response
                     } else {
-                        res.json({ status: 'success', userType: 4 });
+                        res.json({ status: 'success', userType: 4 }); // Include uid in the response
                     }
                 } else {
                     res.status(401).json({ status: 'error', message: 'Wrong password' });
@@ -337,11 +452,12 @@ app.post('/operatorlogin', (req, res) => {
     });
 });
 
+
 app.get('/operatorview', (req, res) => {
     database.then((data) => {
         data.collection('Operators').find({}).toArray().then((result) => {
             res.json(result)
-            console.log(result);
+            // console.log(result);
 
         })
     })
@@ -378,7 +494,7 @@ app.post('/operatorupdate', (req, res) => {
     database.then((db) => {
         db.collection('Operators').updateOne({ _id: new mongodb.ObjectId(oppvalue) }
             , { $set: oppdata }).then((res) => {
-                console.log(res);
+                // console.log(res);
 
             })
     })

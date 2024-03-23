@@ -1,0 +1,73 @@
+/* CSS for modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* Changed from "auto" to "hidden" */
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin-top: 100px;
+    margin-left: 335px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    max-height: 830px;
+    /* Set maximum height to 70% of viewport height */
+    overflow: auto;
+    /* Added overflow to enable scrolling only when necessary */
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Hide Modal */
+.display-none {
+    display: none;
+}
+
+/* Show Modal */
+.display-block {
+    display: block;
+}
+
+/* Map container */
+.map-container {
+    height: 713px;
+    border-radius: 10px;
+    width: 400px;
+    margin-left: -100px;
+    margin-top: 15px;
+}
+
+/* Details table */
+.card {
+    height: 100%;
+}

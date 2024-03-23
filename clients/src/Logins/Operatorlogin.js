@@ -29,29 +29,31 @@ function Operatorlogin() {
                 },
                 body: JSON.stringify({ oppmail, password }),
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
                 console.log('Login response:', data);
-
+    
                 if (data.status === 'success') {
                     console.log('Login successful');
-
-                    redirect('/Trips');
+    
+                    // Store user type in localStorage
+                    localStorage.setItem('userType', data.userType);
+                    localStorage.setItem('_id', data._id);
+    
+                    redirect('/trips');
+                    window.location.reload()
                 } else {
                     console.log('Login failed:', data.message);
-
-
                 }
             } else {
                 console.log('Login failed');
-
             }
         } catch (error) {
             console.error('Error during login:', error);
-
         }
-    }
+    };
+    
 
 
 

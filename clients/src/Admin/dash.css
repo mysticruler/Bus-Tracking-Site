@@ -1,0 +1,41 @@
+/* .app {
+  
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    height: fit-content;
+    min-height: 100vh; 
+    background-image: url('bus.jpg');
+    background-size: cover; 
+    z-index: -10;
+  
+    
+  } */
+  html, body {
+    height: 100%;
+  }
+  
+  .blur-background {
+  
+   
+   
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+    backdrop-filter: blur(10px); /* Adjust blur strength as needed */
+  }
+ 
+  .graph{
+    position: absolute;
+    margin-top: -600px;
+    background-color: rgb(198, 229, 255);
+    margin-left:55px;
+    border-radius: 10px;
+    
+  }
+
+  .latest{
+    position: absolute;
+    margin-top: -600px;
+    margin-left:880px;
+    border-radius: 10px;
+    
+  }

@@ -20,6 +20,7 @@ function Adminlogin() {
     const [password, setPassword] = useState('');
 
     const handleadminLogin = async () => {
+       
         try {
             const response = await fetch('http://localhost:2222/adminlogin', {
                 method: 'POST',
@@ -28,29 +29,31 @@ function Adminlogin() {
                 },
                 body: JSON.stringify({ adminmail, password }),
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
                 console.log('Login response:', data);
-
+    
                 if (data.status === 'success') {
                     console.log('Login successful');
-
-                    redirect('/Admin');
+    
+                    // Store user type in localStorage
+                    localStorage.setItem('userType', data.userType);
+    
+                    redirect('/dashboard');
+                    window.location.reload()
                 } else {
                     console.log('Login failed:', data.message);
-
-
                 }
             } else {
                 console.log('Login failed');
-
             }
         } catch (error) {
             console.error('Error during login:', error);
-
         }
-    }
+        
+    };
+    
 
 
 
@@ -69,13 +72,13 @@ function Adminlogin() {
                 handleadminLogin();
             }}>
 
-                <MDBContainer fluid className="admin-login-container" >
+                <MDBContainer  fluid className="admin-login-container" >
                 
 
                     <MDBRow className='d-flex justify-content-center align-items-center h-100'>
                         <MDBCol col='12'>
 
-                            <MDBCard className='bg-dark text-white my-5 mx-auto' style={{ borderRadius: '1rem', maxWidth: '400px' }}>
+                            <MDBCard id="nnnn" className='bg-dark text-white my-5 mx-auto' style={{ borderRadius: '1rem', maxWidth: '400px' }}>
                                 <button id="button" type="button" class="btn btn-outline-secondary btn-sm"><Link style={{ textDecoration: 'none', color: "white" }} to='/'> BACK TO MAIN SCREEN</Link></button>
                                 <MDBCardBody className='p-5 d-flex flex-column align-items-center mx-auto w-100'>
 

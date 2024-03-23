@@ -56,6 +56,7 @@ function Userregister() {
 
     return (
         <>
+
             <form method="post" onSubmit={addUser}>
                 <MDBContainer fluid className="user-login-container">
 
@@ -87,6 +88,7 @@ function Userregister() {
 
                 </MDBContainer>
             </form >
+
         </>
     );
 }

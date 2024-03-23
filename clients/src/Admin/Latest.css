@@ -1,0 +1,26 @@
+.latest-container {
+    width: 800px;
+    height: 500px;
+    border-radius: 20px; /* Increased border-radius for more curve */
+    border: none; /* No border */
+    overflow: hidden; /* Hide overflow content */
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background with transparency */
+    color: white; /* White text color */
+}
+
+.latest-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse; /* Collapse border spacing */
+}
+
+.latest-table td {
+    padding: 15px; /* Increased cell padding for better aesthetics */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Semi-transparent border */
+}
+
+.label {
+    font-weight: bold; /* Bold labels */
+    width: 200px; /* Increased width for label column */
+    text-align: right; /* Align text to right for labels */
+}
